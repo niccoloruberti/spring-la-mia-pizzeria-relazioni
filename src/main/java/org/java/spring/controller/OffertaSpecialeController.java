@@ -7,8 +7,13 @@ import org.java.spring.db.serv.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class OffertaSpecialeController {
@@ -28,8 +33,23 @@ public class OffertaSpecialeController {
         
         offerta.setPizza(pizza);
         
+        System.out.println(offerta.getPizza().getId());
+        
         model.addAttribute("offerta", offerta);
         
         return "offertaForm";
+	}
+	
+	@PostMapping("/pizzas/{id}/createOfferta")
+	public String storeOfferta(@Valid @ModelAttribute("offerta") OffertaSpeciale formOfferta, Model model ,@PathVariable int id) {
+		
+		Pizza pizza = pizzaService.findById(id);
+		
+		OffertaSpeciale offertaSpeciale = new OffertaSpeciale(formOfferta.getDataInizio(), formOfferta.getDataFine(), formOfferta.getTitolo(), pizza);
+		
+		offertaSpecialeService.save(offertaSpeciale);
+		
+		return "redirect:/";
+		
 	}
 }
