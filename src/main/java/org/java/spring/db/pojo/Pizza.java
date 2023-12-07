@@ -1,11 +1,15 @@
 package org.java.spring.db.pojo;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +38,9 @@ public class Pizza {
 	@NotNull(message = "Il prezzo non può essere vuoto")
 	@Min(value = 1, message = "Il prezzo deve essere maggiore o uguale a 1")
 	private Double prezzo;
+	
+	@OneToMany(mappedBy = "pizza")
+	private List<OffertaSpeciale> offerte;
 	
 	public Pizza() {};
 	public Pizza(String nome, String descrizione, String foto, Double prezzo) {
@@ -74,6 +81,12 @@ public class Pizza {
 	}
 	public void setPrezzo(Double prezzo) {
 		this.prezzo = prezzo;
+	}
+	public List<OffertaSpeciale> getOfferte() {
+		return offerte;
+	}
+	public void setOfferte(List<OffertaSpeciale> offerte) {
+		this.offerte = offerte;
 	}
 	
 	@Override
