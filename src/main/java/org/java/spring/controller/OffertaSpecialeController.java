@@ -1,11 +1,10 @@
 package org.java.spring.controller;
 
-import java.util.List;
-
 import org.java.spring.db.pojo.OffertaSpeciale;
 import org.java.spring.db.pojo.Pizza;
 import org.java.spring.db.serv.OffertaSpecialeService;
 import org.java.spring.db.serv.PizzaService;
+import org.java.spring.dto.OffertaSpecialeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,26 +32,47 @@ public class OffertaSpecialeController {
         OffertaSpeciale offerta = new OffertaSpeciale();
         
         offerta.setPizza(pizza);
-        
-        List<OffertaSpeciale> listaOfferte = pizza.getOfferte();
-        
+           
         model.addAttribute("offerta", offerta);
-        
-        model.addAttribute("listaOfferte", listaOfferte);
         
         return "offertaForm";
 	}
 	
 	@PostMapping("/pizzas/{id}/createOfferta")
-	public String storeOfferta(@Valid @ModelAttribute("offerta") OffertaSpeciale formOfferta, Model model ,@PathVariable int id) {
+	public String storeOfferta(@ModelAttribute OffertaSpecialeDTO offertaSpecialeDTO,@PathVariable int id) {
 		
 		Pizza pizza = pizzaService.findById(id);
-		
-		OffertaSpeciale offertaSpeciale = new OffertaSpeciale(formOfferta.getDataInizio(), formOfferta.getDataFine(), formOfferta.getTitolo(), pizza);
+
+		OffertaSpeciale offertaSpeciale = new OffertaSpeciale(offertaSpecialeDTO.getDataInizio(), offertaSpecialeDTO.getDataFine(), offertaSpecialeDTO.getTitolo(), pizza);
 		
 		offertaSpecialeService.save(offertaSpeciale);
 		
 		return "redirect:/";
 		
+		
 	}
+	
+	 @GetMapping("/pizzas/{pizza_id}/offerte/edit/{offerta_id}")
+	  public String editOffertaSpeciale(Model model, @PathVariable int pizza_id, @PathVariable int offerta_id) {
+	      
+	       OffertaSpeciale offerta = offertaSpecialeService.findById(offerta_id);
+	       
+	       model.addAttribute("offerta", offerta);
+	       
+	       return "offertaForm";
+	   }
+	 
+	 @PostMapping("/pizzas/{pizza_id}/offerte/edit/{offerta_id}")
+	 public String updateOffertaSpeciale(@ModelAttribute OffertaSpecialeDTO offertaSpecialeDTO, @PathVariable int pizza_id, @PathVariable int offerta_id) {
+	     
+		 OffertaSpeciale offerta = offertaSpecialeService.findById(offerta_id);
+		 
+		 offerta.setDataInizio(offertaSpecialeDTO.getDataInizio());
+		 offerta.setDataFine(offertaSpecialeDTO.getDataFine());
+		 offerta.setTitolo(offertaSpecialeDTO.getTitolo());
+		 
+		offertaSpecialeService.save(offerta);
+			
+		return "redirect:/";
+	 }
 }

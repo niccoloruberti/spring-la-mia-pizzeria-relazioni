@@ -13,14 +13,13 @@
 				<h2 class="text-center">Aggiungi Offerta</h2>
 				<form class="mt-5"
 					th:method="POST"
-					th:action="@{/pizzas/{id}/createOfferta (id=${offerta.getPizza().getId()})}"
 					th:object="${offerta}">
+					<label class="form-label" for="dataInizio">Data Inizio</label>
+					<input class="form-control" type="date" name="dataInizio" id="dataInizio" th:value="*{dataInizio}">
+					<label class="form-label" for="dataFine">Data Fine</label>
+					<input class="form-control" type="date" name="dataFine" id="dataFine" th:value="*{dataFine}">
 					<label class="form-label" for="titolo">Titolo</label>
 					<input class="form-control" type="text" name="titolo" id="titolo" th:field="*{titolo}">
-					<label class="form-label" for="dataInizio">Data Inizio</label>
-					<input class="form-control" type="date" name="dataInizio" id="dataInizio" th:field="*{dataInizio}">
-					<label class="form-label" for="dataFine">Data Fine</label>
-					<input class="form-control" type="date" name="dataFine" id="dataFine" th:field="*{dataFine}">
 					<button type="submit" class="btn btn-success mt-3">Aggiungi</button>
 				</form>
 			</div>
