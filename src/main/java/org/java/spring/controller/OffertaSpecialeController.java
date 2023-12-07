@@ -1,5 +1,7 @@
 package org.java.spring.controller;
 
+import java.util.List;
+
 import org.java.spring.db.pojo.OffertaSpeciale;
 import org.java.spring.db.pojo.Pizza;
 import org.java.spring.db.serv.OffertaSpecialeService;
@@ -7,7 +9,6 @@ import org.java.spring.db.serv.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +34,11 @@ public class OffertaSpecialeController {
         
         offerta.setPizza(pizza);
         
-        System.out.println(offerta.getPizza().getId());
+        List<OffertaSpeciale> listaOfferte = pizza.getOfferte();
         
         model.addAttribute("offerta", offerta);
+        
+        model.addAttribute("listaOfferte", listaOfferte);
         
         return "offertaForm";
 	}
