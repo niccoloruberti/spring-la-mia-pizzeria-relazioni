@@ -24,6 +24,7 @@ public class OffertaSpeciale {
 	@ManyToOne
 	private Pizza pizza;
 	
+	public OffertaSpeciale() {};
 	public OffertaSpeciale(LocalDate dataInizio, LocalDate dataFine, String titolo, Pizza pizza) {
 		
 		setDataInizio(dataInizio);

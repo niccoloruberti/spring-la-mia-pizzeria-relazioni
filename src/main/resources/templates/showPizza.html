@@ -17,6 +17,7 @@
 						<h5 class="card-title" th:text="${pizza.nome}"></h5>
 						<p class="card-text" th:text="${pizza.descrizione}"></p>
 						<p>[[${pizza.prezzo}]]€</p>
+						<p><a th:href="@{/pizzas/{id}/createOfferta (id=${pizza.id})}">Aggiungi Offerta</a></p>
 					</div>
 				</div>
 			</div>
