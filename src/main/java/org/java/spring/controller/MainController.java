@@ -3,8 +3,10 @@ package org.java.spring.controller;
 import java.util.List;
 
 import org.java.spring.db.pojo.Ingrediente;
+import org.java.spring.db.pojo.OffertaSpeciale;
 import org.java.spring.db.pojo.Pizza;
 import org.java.spring.db.serv.IngredienteService;
+import org.java.spring.db.serv.OffertaSpecialeService;
 import org.java.spring.db.serv.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,9 @@ import jakarta.validation.Valid;
 
 @Controller
 public class MainController {
+	
+	@Autowired
+	private OffertaSpecialeService offertaSpecialeService;
 
 	@Autowired
 	private PizzaService pizzaService;
@@ -103,6 +108,9 @@ public class MainController {
 	public String deletePizza(@PathVariable int id) {
 		
 		Pizza pizza = pizzaService.findById(id);
+		
+        List<OffertaSpeciale> offerte = pizza.getOfferte();
+        offerte.forEach(offertaSpecialeService::delete);
 		
 		pizzaService.delete(pizza);
 		
