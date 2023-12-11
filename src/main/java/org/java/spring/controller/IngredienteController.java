@@ -31,39 +31,38 @@ public class IngredienteController {
 		return "ingredienti";
 	}
 	
-	@PostMapping("/ingredienti/delete/{id}")
-	public String deleteIngrediente(@PathVariable int id) {
-		
-		Ingrediente ingrediente = ingredienteService.findById(id);
-		
-		ingredienteService.delete(ingrediente);
-		
-		return "redirect:/ingredienti";
-	}
-	
 	@GetMapping("/ingredienti/create")
 	public String createIngrediente(Model model) {
 		
 		Ingrediente ingrediente = new Ingrediente();
 		
-		model.addAttribute(ingrediente);
+		model.addAttribute("ingrediente", ingrediente);
 		
 		return "ingredienteForm";
 	}
 	
 	@PostMapping("/ingredienti/create")
-	public String store(@Valid @ModelAttribute("ingrediente") Ingrediente formIngrediente,
-		BindingResult bindingResult,
+	public String store(@ModelAttribute Ingrediente formIngrediente,
 		Model model) {
-		
-		if(bindingResult.hasErrors()) {
-			return "ingredienteForm";
-		}
-		
+	
 		ingredienteService.save(formIngrediente);
 		
 		return "redirect:/ingredienti";
 		
+	}
+	
+	@PostMapping("/ingredienti/delete/{id}")
+	public String deleteIngrediente(@PathVariable int id) {
+		
+		Ingrediente ingrediente = ingredienteService.findById(id);
+		
+	    for (Pizza pizza : ingrediente.getPizzas()) {
+	        pizza.rimuoviIngrediente(ingrediente);
+	    }
+		
+		ingredienteService.delete(ingrediente);
+		
+		return "redirect:/ingredienti";
 	}
 	
 }

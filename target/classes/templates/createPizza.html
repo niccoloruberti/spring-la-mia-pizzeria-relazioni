@@ -30,6 +30,12 @@
 					<input class="form-control" type="number" id="prezzo" th:field="*{prezzo}">
 					<div th:replace="fragments :: errorDiv('prezzo')"></div>
 					
+					<h6 class="mt-5">Ingredienti:</h6>
+	                <div th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">                                 
+	                  <label th:for="ingrediente.id" th:text="*{nome}"></label>
+	                  <input type="checkbox" th:id="*{id}" th:value="*{id}" th:field="${pizza.ingredienti}">
+	                </div>
+					
 					<button class="btn btn-success mt-3" type="submit">Salva</button>
 					
 				</form>
