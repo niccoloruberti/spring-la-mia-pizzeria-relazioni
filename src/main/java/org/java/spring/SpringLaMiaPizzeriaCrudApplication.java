@@ -1,6 +1,8 @@
 package org.java.spring;
 
+import org.java.spring.db.pojo.Ingrediente;
 import org.java.spring.db.pojo.Pizza;
+import org.java.spring.db.serv.IngredienteService;
 import org.java.spring.db.serv.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +14,9 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PizzaService pizzaService;
+	
+	@Autowired
+	private IngredienteService ingredienteService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringLaMiaPizzeriaCrudApplication.class, args);
@@ -31,6 +36,15 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner{
 			pizzaService.save(new Pizza("Speck e Mascarpone", "pomodoro, mozzarella, speck e mascarpone" , "https://www.galbani.it/sites/default/files/styles/width_1920/public/speck-e-mascarpone-1_zoom.jpg?itok=ZzwiESCP", 9.50));
 			
 			pizzaService.save(new Pizza("Tonno e Cipolla", "pomodoro, mozzarella, tonno e cipolla", "https://blog.giallozafferano.it/cucinoperpassione/wp-content/uploads/2019/09/Pizza-rossa-tonno-e-cipolla.jpg", 6D));
+			
+			
+			Ingrediente i1 = new Ingrediente("pomodoro");
+			Ingrediente i2 = new Ingrediente("mozzarella");
+			Ingrediente i3 = new Ingrediente("olio");
+			
+			ingredienteService.save(i1);
+			ingredienteService.save(i2);
+			ingredienteService.save(i3);
 	}
 	
 	
